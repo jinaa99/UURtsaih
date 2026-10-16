@@ -1,18 +1,118 @@
 {
   "meta": {
+    "siteName": "ÜÜR",
     "title": "ÜÜR — Mongolian Cashmere",
     "description": "Cashmere born of the Gobi dawn."
   },
   "nav": {
+    "home": "Home",
     "collection": "Collection",
     "story": "Story",
-    "cart": "Cart",
+    "cart": "Bag",
+    "menu": "Menu",
+    "close": "Close",
     "language": "Language",
-    "currency": "Currency"
+    "currency": "Currency",
+    "main": "Main menu"
   },
   "home": {
     "eyebrow": "Mongolian cashmere",
     "title": "Woven from first light",
-    "lead": "The homepage story will be built here."
+    "lead": "The homepage story will be built here.",
+    "cta": "View collection"
+  },
+  "categories": {
+    "all": "All",
+    "sweater": "Sweaters",
+    "cardigan": "Cardigans",
+    "scarf": "Scarves",
+    "hat": "Hats",
+    "gloves": "Gloves",
+    "wrap": "Wraps"
+  },
+  "collection": {
+    "title": "Collection",
+    "description": "The ÜÜR cashmere collection.",
+    "filterCategory": "Category",
+    "filterColor": "Colour",
+    "allColors": "All colours",
+    "count": "Showing {count}",
+    "empty": "No pieces match these filters.",
+    "reset": "Clear filters"
+  },
+  "product": {
+    "color": "Colour",
+    "size": "Size",
+    "oneSize": "One size",
+    "chooseSize": "Select a size",
+    "addToCart": "Add to bag",
+    "added": "Added to bag",
+    "details": "Details",
+    "detailsPlaceholder": "Composition, weight and origin details coming soon.",
+    "care": "Care",
+    "carePlaceholder": "Care instructions coming soon.",
+    "shipping": "Shipping & returns",
+    "shippingPlaceholder": "Shipping and returns information coming soon.",
+    "imagePlaceholder": "Image coming soon",
+    "gallery": "Product images",
+    "back": "Back to collection"
+  },
+  "cart": {
+    "title": "Bag",
+    "empty": "Your bag is empty.",
+    "continue": "View collection",
+    "subtotal": "Subtotal",
+    "shippingNote": "Shipping is calculated at checkout.",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "quantity": "Quantity",
+    "increase": "Increase",
+    "decrease": "Decrease",
+    "viewCart": "View bag",
+    "itemCount": "{count} items"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "description": "Order details.",
+    "contact": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "shippingAddress": "Shipping address",
+    "fullName": "Full name",
+    "country": "Country",
+    "city": "City / Province",
+    "district": "District",
+    "address": "Address",
+    "notes": "Notes",
+    "optional": "optional",
+    "payment": "Payment",
+    "paymentSoonTitle": "Payment coming soon",
+    "paymentSoonBody": "Online payment is not open yet. No order will be placed.",
+    "comingSoon": "Coming soon",
+    "summary": "Order summary",
+    "submit": "Payment coming soon",
+    "submitted": "Thank you. Payment is not open yet, so no order was placed and your details were not stored.",
+    "emptyCart": "Your bag is empty, so there is nothing to check out."
+  },
+  "story": {
+    "title": "Story",
+    "description": "The story and origins of ÜÜR.",
+    "eyebrow": "Origins",
+    "headline": "From the Gobi dawn",
+    "sections": {
+      "origin": "Origin",
+      "herders": "Herders",
+      "craft": "Craft",
+      "care": "Responsibility"
+    },
+    "placeholder": "Brand story copy coming soon."
+  },
+  "footer": {
+    "rights": "© ÜÜR. A fictional brand — demo store."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page you are looking for does not exist or has moved.",
+    "home": "Back to home"
   }
 }

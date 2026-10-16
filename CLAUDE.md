@@ -81,11 +81,21 @@
 
 ## Бүтэц
 
-- `src/i18n/` — locale config, `mn.json` (эх загвар) / `en.json`
+- `src/content/products.ts` — placeholder бараа (6). **Зөвхөн** `src/lib/catalog/local-repository.ts` импортлоно.
+- `src/lib/catalog/` — `types.ts` (Product, Colorway, ImageSlot, LocalizedText), `repository.ts` (interface), `index.ts` (`productRepository` — эх үүсвэр солих цэг)
+- `src/lib/payment/` — `PaymentProvider` interface, `plannedPaymentProviders` (QPay, карт). Implementation байхгүй.
+- `src/lib/cart/store.ts` — localStorage сагс (`uur:cart:v1`), useSyncExternalStore
 - `src/lib/currency.ts` — `Price` type (MNT, USD хоёулаа заавал), `formatPrice`
-- `src/components/currency/` — `CurrencyProvider` (localStorage, default: mn→MNT, en→USD), `PriceTag`
-- `src/components/ui/` — Header, LocaleSwitch, CurrencySwitch
-- Design token: `src/app/globals.css` дахь `@theme` (cream, sand, camel, mist, ink; `ease-silk`; serif = Cormorant Garamond, sans = Manrope — хоёулаа кирилл)
+- `src/lib/seo.ts` — `pageMetadata` (canonical + hreflang + OG), `jsonLd`
+- `src/i18n/` — locale config, `mn.json` (эх загвар) / `en.json`, `fill()` template
+- `src/components/` — `cart/` (Provider, Drawer, LineItem), `product/`, `collection/`, `checkout/`, `currency/`, `i18n/` (client-д dict өгөх), `ui/` (Header, Footer, Button, Drawer, MobileMenu)
+- Хуудас: `/[lang]` · `/collection` (?category=&color=) · `/product/[slug]` · `/cart` · `/checkout` · `/story` · `/styleguide` (noindex)
+- Design token: `src/app/globals.css` дахь `@theme` + typography utility (`text-display/title/heading/eyebrow/lead`). Drawer = native `<dialog>` + `.drawer`.
+
+## Мэдэгдэж буй зүйлс
+
+- Байхгүй slug (`/mn/product/xxx`) нь PPR streaming-ийн улмаас 404 биш **200 + not-found UI + noindex** буцаана (Next-ийн documented behavior).
+- `npm audit`: 5 high — бүгд dev-only `eslint-config-next → fast-glob → micromatch → braces`. Production 0. `audit fix --force` бүү ажиллуул (eslint-config-next 14 руу буулгана).
 
 ## Командууд
 
@@ -95,7 +105,7 @@
 ## Явц
 
 - [x] Phase 0 — Суурь (scaffold, token, фонт, i18n routing, валют switch)
-- [ ] Phase 1 — Худалдааны хэсэг (Repository, products, collection, product, cart, PaymentProvider)
-- [ ] Phase 2 — Scroll систем + зураг
+- [x] Phase 1 — Худалдааны хэсэг (Repository, products, collection, product, cart, checkout, story, SEO, styleguide)
+- [ ] Phase 2 — Зураг татах (Unsplash/Pexels/Pixabay) → дараа нь scroll систем
 - [ ] Phase 3 — 3D түүх
 - [ ] Phase 4 — Өнгөлгөө
