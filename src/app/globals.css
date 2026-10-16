@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/*
+ * ÜÜR design tokens — "чимээгүй luxury".
+ * Цайвар дулаан палитр, dark mode байхгүй (брэндийн нэг өнгө аяс).
+ */
+@theme {
+  /* Палитр */
+  --color-cream: #f6f1e8;
+  --color-cream-deep: #efe7da;
+  --color-sand: #e4d8c4;
+  --color-camel: #b08a5f;
+  --color-camel-deep: #8a6a46;
+  --color-mist: #a9a6a0;
+  --color-mist-light: #d6d3cd;
+  --color-ink: #2b2723;
+  --color-ink-soft: #5c554d;
+
+  /* Фонт (next/font-оос ирэх хувьсагч) */
+  --font-serif: var(--font-cormorant), "Times New Roman", serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+
+  /* Удаан, зөөлөн хөдөлгөөн */
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-breath: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-slow: 900ms;
+  --duration-slower: 1600ms;
+
+  /* Нарийн, хэмжээтэй үсгийн зай */
+  --tracking-luxe: 0.2em;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--color-sand);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-camel);
+    outline-offset: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
