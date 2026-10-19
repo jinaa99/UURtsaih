@@ -12,14 +12,15 @@ export function ProductImage({
   tint,
   label,
   sizes,
-  priority = false,
+  preload = false,
 }: {
   slot: ImageSlot;
   locale: Locale;
   tint: string;
   label: string;
   sizes: string;
-  priority?: boolean;
+  /** LCP зураг: `<head>`-д preload (Next 16 — `priority`-ийн оронд). */
+  preload?: boolean;
 }) {
   if (slot.src) {
     return (
@@ -28,7 +29,7 @@ export function ProductImage({
         alt={slot.alt[locale]}
         fill
         sizes={sizes}
-        priority={priority}
+        preload={preload}
         className="object-cover"
       />
     );

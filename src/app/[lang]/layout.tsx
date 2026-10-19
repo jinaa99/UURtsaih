@@ -6,6 +6,7 @@ import { CurrencyProvider } from "@/components/currency/CurrencyProvider";
 import { I18nProvider } from "@/components/i18n/I18nProvider";
 import { Footer } from "@/components/ui/Footer";
 import { Header } from "@/components/ui/Header";
+import { ShopButton } from "@/components/ui/ShopButton";
 import { locales } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { defaultCurrencyFor } from "@/lib/currency";
@@ -14,15 +15,18 @@ import "../globals.css";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
-  subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
+  // Монгол Ү/ү, Ө/ө нь cyrillic-ext-д (U+04AE, U+04E8) — preload-д заавал.
+  subsets: ["latin", "cyrillic", "cyrillic-ext"],
+  // Зөвхөн ашиглагддаг жин (display 300, гарчиг 400) — preload-ийн хэмжээ LCP-тэй өрсөлдөхгүй.
+  weight: ["300", "400"],
   display: "swap",
 });
 
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin", "cyrillic"],
+  // Биеийн текст fallback-аар (size-adjusted) шууд харагдана; preload нь LCP гарчиг (Cormorant)-ийн фонттой өрсөлдөхгүй.
+  preload: false,
   display: "swap",
 });
 
@@ -61,6 +65,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
               <Header />
               <div className="flex-1">{children}</div>
               <Footer />
+              <ShopButton />
               <CartDrawer />
             </CartProvider>
           </CurrencyProvider>

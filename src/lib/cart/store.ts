@@ -14,6 +14,8 @@ export type CartLine = {
   price: Price;
   color: Colorway;
   size: string;
+  /** Жижиг зураг (байхгүй бол өнгөөр). Хуучин сагсанд байхгүй байж болно. */
+  image?: string | null;
   quantity: number;
 };
 

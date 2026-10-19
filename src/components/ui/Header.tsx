@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/brand/Logo";
 import { CartButton } from "@/components/cart/CartButton";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { CurrencySwitch } from "./CurrencySwitch";
@@ -19,12 +20,8 @@ export async function Header() {
           </nav>
         </div>
 
-        <Link
-          href={`/${locale}`}
-          className="font-serif text-xl tracking-[0.3em] normal-case"
-          aria-label="ÜÜR — home"
-        >
-          ÜÜR
+        <Link href={`/${locale}`} aria-label={`ÜÜR — ${dict.nav.home}`} className="block">
+          <Logo className="text-[18px] sm:text-[22px]" />
         </Link>
 
         <div className="flex items-center justify-end gap-6 sm:gap-8">

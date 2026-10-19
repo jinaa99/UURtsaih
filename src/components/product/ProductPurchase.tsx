@@ -33,6 +33,7 @@ export function ProductPurchase({ product }: { product: Product }) {
       price: product.price,
       color,
       size,
+      image: product.images[0]?.src ?? null,
     });
     open();
   }
@@ -104,7 +105,10 @@ export function ProductPurchase({ product }: { product: Product }) {
       </fieldset>
 
       {/* Утсан дээр дэлгэцийн доор наалттай; md-ээс дээш энгийн байрлалд. */}
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-mist-light bg-cream/95 px-5 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md md:static md:border-0 md:bg-transparent md:p-0 md:backdrop-blur-none">
+      <div
+        data-bottom-bar
+        className="fixed inset-x-0 bottom-0 z-30 border-t border-mist-light bg-cream/95 px-5 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md md:static md:border-0 md:bg-transparent md:p-0 md:backdrop-blur-none"
+      >
         <div className="flex items-center gap-4">
           <PriceTag price={product.price} className="text-lg tabular-nums md:hidden" />
           <Button size="lg" className="flex-1 md:w-full" onClick={addToCart}>

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { CollectionView, type CollectionFilters } from "@/components/collection/CollectionView";
+import {
+  CollectionFilterBar,
+  CollectionGrid,
+  type CollectionFilters,
+} from "@/components/collection/CollectionView";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { categories as allCategories, productRepository, type Colorway } from "@/lib/catalog";
 import type { Category, Product } from "@/lib/catalog";
@@ -37,10 +41,13 @@ export default async function CollectionPage({ searchParams }: PageProps<"/[lang
   return (
     <main className="mx-auto max-w-screen-2xl px-5 pt-28 sm:px-10 sm:pt-40">
       <h1 className="mb-10 text-title sm:mb-14">{dict.collection.title}</h1>
-      {/* Static shell нь шүүлтүүргүй grid; query-тэй үед шүүсэн хувилбар stream хийгдэнэ. */}
-      <Suspense fallback={<CollectionView {...shared} filters={{ category: null, color: null }} />}>
+      {/* Static shell: шүүлтүүргүй мөр + бүтэн grid. Query-тэй үед зөвхөн шүүлтүүрийн мөр stream хийгдэнэ. */}
+      <Suspense
+        fallback={<CollectionFilterBar {...shared} filters={{ category: null, color: null }} />}
+      >
         <FilteredCollection searchParams={searchParams} shared={shared} />
       </Suspense>
+      <CollectionGrid products={products} locale={locale} dict={dict} />
     </main>
   );
 }
@@ -50,7 +57,7 @@ async function FilteredCollection({
   shared,
 }: {
   searchParams: PageProps<"/[lang]/collection">["searchParams"];
-  shared: Omit<React.ComponentProps<typeof CollectionView>, "filters">;
+  shared: Omit<React.ComponentProps<typeof CollectionFilterBar>, "filters">;
 }) {
   const sp = await searchParams;
   const category = one(sp.category);
@@ -59,5 +66,5 @@ async function FilteredCollection({
     category: shared.categories.includes(category as Category) ? (category as Category) : null,
     color: shared.colors.some((c) => c.id === color) ? color! : null,
   };
-  return <CollectionView {...shared} filters={filters} />;
+  return <CollectionFilterBar {...shared} filters={filters} />;
 }

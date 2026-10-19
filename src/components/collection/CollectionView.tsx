@@ -8,10 +8,11 @@ import type { Category, Colorway, Product } from "@/lib/catalog/types";
 export type CollectionFilters = { category: Category | null; color: string | null };
 
 /**
- * Шүүлтүүр + grid. Шүүлтүүр нь URL query (?category=&color=) тул холбоосоор
- * хуваалцах боломжтой, JavaScript-гүйгээр ч ажиллана.
+ * Шүүлтүүр (URL query ?category=&color=) — холбоосоор хуваалцах боломжтой, JavaScript-гүйгээр ч ажиллана.
+ * Grid нь static shell-д үргэлж бүтнээрээ (`CollectionGrid`); энэ хэсэг query-гээр stream хийгдэж,
+ * тохирохгүй бүтээгдэхүүнийг жижиг `<style>`-оор нууна. Ингэснээр зураг (LCP) дахин зурагдахгүй.
  */
-export function CollectionView({
+export function CollectionFilterBar({
   products,
   categories,
   colors,
@@ -40,6 +41,15 @@ export function CollectionView({
     const s = qs.toString();
     return `/${locale}/collection${s ? `?${s}` : ""}`;
   };
+
+  // id-ууд нь мэдэгдэж буй жагсаалтаас шалгагдсан (page.tsx) тул selector-т аюулгүй.
+  const hideCss = [
+    filters.category && `[data-product]:not([data-category="${filters.category}"])`,
+    filters.color && `[data-product]:not([data-colors~="${filters.color}"])`,
+  ]
+    .filter(Boolean)
+    .map((sel) => `${sel}{display:none}`)
+    .join("");
 
   const chip =
     "shrink-0 border px-4 py-2 text-eyebrow transition-colors duration-(--duration-slow) ease-silk";
@@ -107,8 +117,9 @@ export function CollectionView({
       <p className="mt-6 mb-10 text-xs text-ink-soft" aria-live="polite">
         {fill(dict.collection.count, { count: visible.length })}
       </p>
+      {hideCss && <style>{hideCss}</style>}
 
-      {visible.length === 0 ? (
+      {visible.length === 0 && (
         <div className="py-24 text-center">
           <p className="font-serif text-2xl">{dict.collection.empty}</p>
           <Link
@@ -118,20 +129,39 @@ export function CollectionView({
             {dict.collection.reset}
           </Link>
         </div>
-      ) : (
-        <ul className="grid gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((p, i) => (
-            <li key={p.id}>
-              <ProductCard
-                product={p}
-                locale={locale}
-                imageLabel={dict.product.imagePlaceholder}
-                priority={i < 2}
-              />
-            </li>
-          ))}
-        </ul>
       )}
     </>
+  );
+}
+
+/** Бүх бүтээгдэхүүн — шүүлтүүрээс үл хамааран нэг л удаа (static shell-д) render хийгдэнэ. */
+export function CollectionGrid({
+  products,
+  locale,
+  dict,
+}: {
+  products: readonly Product[];
+  locale: Locale;
+  dict: Dictionary;
+}) {
+  return (
+    <ul className="grid gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map((p, i) => (
+        <li
+          key={p.id}
+          data-product=""
+          data-category={p.category}
+          data-colors={p.colors.map((c) => c.id).join(" ")}
+        >
+          <ProductCard
+            product={p}
+            locale={locale}
+            imageLabel={dict.product.imagePlaceholder}
+            preload={i === 0}
+            headingLevel={2}
+          />
+        </li>
+      ))}
+    </ul>
   );
 }

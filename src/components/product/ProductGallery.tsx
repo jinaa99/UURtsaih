@@ -33,7 +33,7 @@ export function ProductGallery({
               tint={tint}
               label={imageLabel}
               sizes={i === 0 ? "(min-width: 768px) 55vw, 88vw" : "(min-width: 768px) 28vw, 88vw"}
-              priority={i === 0}
+              preload={i === 0}
             />
           </li>
         ))}

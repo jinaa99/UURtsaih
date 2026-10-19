@@ -14,16 +14,25 @@ export function localizedAlternates(locale: Locale, path: string): Metadata["alt
   };
 }
 
+/** Брэндийн OG зураг (scripts/media/build-og.mjs). */
+export const ogImages = {
+  default: { url: "/og/default.jpg", width: 1200, height: 630 },
+  story: { url: "/og/story.jpg", width: 1200, height: 630 },
+} as const;
+
 export function pageMetadata({
   locale,
   path,
   title,
   description,
+  image = ogImages.default,
 }: {
   locale: Locale;
   path: string;
   title: string;
   description: string;
+  /** Байхгүй бол брэндийн default OG зураг. */
+  image?: { url: string; width: number; height: number; alt?: string };
 }): Metadata {
   return {
     title,
@@ -36,7 +45,9 @@ export function pageMetadata({
       siteName: "ÜÜR",
       locale: locale === "mn" ? "mn_MN" : "en_US",
       type: "website",
+      images: [{ alt: title, ...image }],
     },
+    twitter: { card: "summary_large_image", title, description, images: [image.url] },
   };
 }
 

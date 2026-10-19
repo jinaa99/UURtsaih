@@ -63,12 +63,17 @@
 
 ## Зургийн дүрэм
 
-- Одоогоор бодит брэндийн зураг байхгүй — placeholder-оор эхэлнэ.
-- Phase 2-оос Claude өөрөө Unsplash, Pexels, Pixabay-аас үнэгүй зураг хайж татна.
-- Зөвхөн арилжааны хэрэглээнд үнэгүй, зөвшөөрөл шаардахгүй лицензтэй зураг авна.
-- Зураг бүрийн эх сурвалжийг `public/images/CREDITS.md`-д бүртгэнэ: файлын нэр, зохиогч, эх URL, лиценз, татсан огноо.
-- Танигдахуйц хүн, бусад брэндийн лого, бараа агуулсан зургийг бүтээгдэхүүний зураг болгож ашиглахгүй.
-- Зургийг web-д зориулж optimize хийнэ (WebP/AVIF, зохистой хэмжээ); `next/image` ашиглана.
+- Эх сурвалж: **зөвхөн** Unsplash (Unsplash+ зураг авахгүй), Pexels, Pixabay. 3D текстур: Poly Haven, ambientCG (CC0).
+- Тод харагдах царайтай хүн, лого, брэнд харагдах зураг авахгүй. Contact sheet-ээр нүдээр шалгасны дараа л нэмнэ.
+- Хадгалах: `public/media/<category>/` — WebP, 2 хэмжээ (2400px, 1200px). 3D текстур: `public/media/textures/<id>/{diffuse,normal,roughness}-{2048,1024}.webp` (GPU-д 2-ын зэрэг).
+- Бүртгэл: `src/content/media.ts` (эх URL, зохиогч, лиценз, огноо) — `scripts/media/registry.json`-оос **автоматаар үүснэ**, гараар бүү засварла.
+- Бүтээгдэхүүний түр зураг `placeholder: true` — бодит зургаар солигдоно.
+- Ашиглах: `getPhoto(id)` / `photoSlot(id)` / `getTexture(id)` (`src/lib/media.ts`, id нь typed). Зохиогчийн нэр `/credits` хуудсанд (footer-оос холбоостой) — Unsplash guideline.
+- Сонгогдсон: hero = `hero-unsplash-xgbugdiobvm` (нүүр, 3D stage 1), түүх = svaofknuoak + 4 хэсэг; текстур: `tex-cotton-jersey` (даавуу намирах), `tex-fabric019` (нэхмэл).
+- Дуу (CC0): `node scripts/media/fetch-audio.mjs` → `public/media/audio/`, `getAudio(id)`. Нүүрний салхи = `audio-wind-freesound-697217` (freesound HQ preview mp3; эх wav login шаарддаг).
+- Устгах: `node scripts/media/remove.mjs <id...>`.
+- Хэрэгсэл: `node scripts/media/fetch-textures.mjs`, `node scripts/media/fetch-photos.mjs search|add` (`.env.local` → `UNSPLASH_ACCESS_KEY` / `PIXABAY_API_KEY` / `PEXELS_API_KEY`; Pexels шинэ key олголт 2026-10 байдлаар түр зогссон; Pixabay энгийн key 1280px хүртэл). Шалгах: `/dev/media`.
+- Unsplash сайт bot-хамгаалалттай (Anubis) — тойрохгүй; Unsplash/Pixabay хэрэгтэй бол албан ёсны API key ашиглана.
 
 ## Next.js 16 онцлог (анхаар)
 
@@ -90,11 +95,27 @@
 - `src/i18n/` — locale config, `mn.json` (эх загвар) / `en.json`, `fill()` template
 - `src/components/` — `cart/` (Provider, Drawer, LineItem), `product/`, `collection/`, `checkout/`, `currency/`, `i18n/` (client-д dict өгөх), `ui/` (Header, Footer, Button, Drawer, MobileMenu)
 - Хуудас: `/[lang]` · `/collection` (?category=&color=) · `/product/[slug]` · `/cart` · `/checkout` · `/story` · `/styleguide` (noindex)
+- `src/components/three/` — `HeroScrollStage` (нүүр: 700svh sticky, `--hero-wind`/`--hero-ui`, статик зураг = fallback, өнгө сонголт → `/collection?color=`), `particles/` (`stages.ts` = үе шатын хүрээ (three-гүй), `story.ts` = frame төлөв + зөөлрүүлсэн progress, `ParticleSystem` = GPGPU (зураг → салхи → helix утас → knit → даавууны гадаргуу), `Cloth` = MeshPhysicalMaterial + sheen + Poly Haven `cotton_jersey` normal/roughness, `shaders.ts` дахь `clothGlsl` хоёулаа хуваалцана, `PointerWind`, `settings` (100k / сул утас 30k + FPS хамгаалалт), `DebugPanel` = leva, `?debug`)
+- `src/components/home/` — нүүрний угсралт: `SmoothScroll` (Lenis + ScrollTrigger + `[data-reveal]`/`[data-reveal-fade]` → `data-in`), `Reveal` (гарчиг маскаас доороос), `HorizontalScroller` (06 цуглуулга: ≥768px sticky + scrub, утсанд native snap), `Loader` (ÜÜR + progress; `src/lib/hero-ready.ts`-ийг хүлээнэ), `WindSound` (default унтраалттай, Web Audio loop), `FilmGrain` (grain + vignette). Бүлгийн гарчиг 02–05 = `CHAPTERS` (`stages.ts`), HeroScrollStage дотор.
+- `src/components/motion/` — `SmoothScroll` (нүүр + түүх: Lenis, reveal, `[data-parallax="0.12"]`), `Reveal`.
+- `src/components/story/` — `StoryMap` (Монголын SVG газрын зураг, говь → үйлдвэр гэрлийн шугам scroll-оор; 320svh sticky), `ProcessSteps` (самнах → цэвэрлэх → ээрэх → нэхэх, шугаман дүрс зурагдана). Газрын зураг: `src/content/mongolia-map.ts` ← `node scripts/map/build-mongolia.mjs` (Natural Earth 1:50m, public domain; гараар бүү засварла). Үйлдвэрийн цэг = Улаанбаатар — **placeholder**, брэнд баталгаажуулна.
+- Түүхийн тоо баримт: `story/page.tsx` дахь `facts` (`null` = "Удахгүй") — зохиож бичихгүй.
+- `ui/ShopButton` — бүх хуудсанд доод зүүн "Дэлгүүр" товч (утсан дээр `[data-bottom-bar]` байвал дээш өргөгдөнө).
+- Лого: `src/components/brand/Logo.tsx` (`Logo` horizontal/stacked, `LogoMark`, `Wordmark`) — "нэхмэл үүр": тэнгэрийн хаяа дээр мандах нар, дотроо нэхмэлийн эгнээ + Cormorant Garamond 300 wordmark (path, OFL). `node scripts/brand/build-logo.mjs` → `logo-data.ts`, `public/brand/*.svg`, `src/app/{icon.svg,apple-icon.png,favicon.ico}`; дараа нь `node scripts/media/build-og.mjs`. Header (хэвтээ), footer + loader (босоо, loader-т зурагдана).
 - Design token: `src/app/globals.css` дахь `@theme` + typography utility (`text-display/title/heading/eyebrow/lead`). Drawer = native `<dialog>` + `.drawer`.
+
+## Гүйцэтгэл (Lighthouse mobile 85+ / a11y 95+ / SEO 95+)
+
+- 3D: сул төхөөрөмж (saveData, ≤2 цөм/GB, software WebGL — unmasked renderer) ба reduced-motion → 3D-гүй, `fallback` (зурагтай бүлгүүд). Ажиллаж байхдаа 30k-д ч <30fps → 3D унтарна. 3D bundle нь load + 3.5с (эсвэл анхны scroll/touch)-ийн дараа; даавууны shader/текстурыг idle үед урьдчилан бэлдэнэ (`Cloth.prepare`). `?3d` — хүчээр асаах.
+- Hero-ийн анхны өндөр/fallback-ыг CSS шийднэ (`.hero-stage[data-mode="auto"]`) — 3D хэрэглэгчид далд зураг татахгүй.
+- LCP нь гарчиг (текст): hero фон зураг `fetchPriority="low"`; Cormorant зөвхөн 300/400 + `cyrillic-ext` (Ү/Ө), Manrope `preload: false`. `priority` (deprecated) биш `preload` ашигла, зөвхөн жинхэнэ LCP зурагт.
+- Бүтэн өргөнтэй `object-cover` зурагт `coverSizes(photo, heightVh)` (`src/lib/media.ts`).
+- OG: `public/og/{default,story}.jpg` ← `node scripts/media/build-og.mjs`; `pageMetadata` default-аар хэрэглэнэ. Production-д `NEXT_PUBLIC_SITE_URL` заавал (sitemap/OG/canonical).
 
 ## Мэдэгдэж буй зүйлс
 
 - Байхгүй slug (`/mn/product/xxx`) нь PPR streaming-ийн улмаас 404 биш **200 + not-found UI + noindex** буцаана (Next-ийн documented behavior).
+- `/cart`, `/checkout` нь санаатайгаар `noindex` → Lighthouse SEO 66 (`is-crawlable`). Засах шаардлагагүй.
 - `npm audit`: 5 high — бүгд dev-only `eslint-config-next → fast-glob → micromatch → braces`. Production 0. `audit fix --force` бүү ажиллуул (eslint-config-next 14 руу буулгана).
 
 ## Командууд
@@ -106,6 +127,7 @@
 
 - [x] Phase 0 — Суурь (scaffold, token, фонт, i18n routing, валют switch)
 - [x] Phase 1 — Худалдааны хэсэг (Repository, products, collection, product, cart, checkout, story, SEO, styleguide)
-- [ ] Phase 2 — Зураг татах (Unsplash/Pexels/Pixabay) → дараа нь scroll систем
-- [ ] Phase 3 — 3D түүх
+- [x] Phase 2a — Зураг татах, сайтад холбох (Unsplash + Poly Haven/ambientCG)
+- [ ] Phase 2b — Scroll систем (Lenis + GSAP: нүүрэнд асаалттай; hero progress одоохондоо native scroll-оос)
+- [ ] Phase 3 — 3D түүх (stage 1–5 хийгдсэн: зураг → утас → нэхмэл → даавуу + өнгө; progress одоо native scroll-оос — Phase 2b-д ScrollTrigger руу; 6–7 HTML-ээр угсарсан, 3D-гүй)
 - [ ] Phase 4 — Өнгөлгөө

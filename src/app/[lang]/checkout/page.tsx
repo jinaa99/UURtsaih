@@ -22,7 +22,7 @@ export default async function CheckoutPage() {
   const providers = plannedPaymentProviders.map((p) => ({ id: p.id, name: p.displayName[locale] }));
 
   return (
-    <main className="mx-auto max-w-screen-xl px-5 pt-28 sm:px-10 sm:pt-40">
+    <main data-checkout className="mx-auto max-w-screen-xl px-5 pt-28 sm:px-10 sm:pt-40">
       <h1 className="mb-12 text-title">{dict.checkout.title}</h1>
       <CheckoutForm providers={providers} />
     </main>

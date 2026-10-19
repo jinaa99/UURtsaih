@@ -8,13 +8,17 @@ export function ProductCard({
   product,
   locale,
   imageLabel,
-  priority = false,
+  preload = false,
+  headingLevel = 3,
 }: {
   product: Product;
   locale: Locale;
   imageLabel: string;
-  priority?: boolean;
+  preload?: boolean;
+  /** Хуудасны гарчгийн шатанд тааруулна (цуглуулга: h1 → h2). */
+  headingLevel?: 2 | 3;
 }) {
+  const Heading = headingLevel === 2 ? "h2" : "h3";
   const [first, second] = product.images;
   const tint = product.colors[0].swatch;
 
@@ -27,10 +31,11 @@ export function ProductCard({
           tint={tint}
           label={imageLabel}
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          priority={priority}
+          preload={preload}
         />
         {second?.src && (
-          <div className="absolute inset-0 opacity-0 transition-opacity duration-(--duration-slow) ease-silk group-hover:opacity-100">
+          // Hover-гүй (touch) төхөөрөмжид display:none — lazy зураг огт татагдахгүй.
+          <div className="absolute inset-0 hidden opacity-0 transition-opacity duration-(--duration-slow) ease-silk group-hover:opacity-100 [@media(hover:hover)]:block">
             <ProductImage
               slot={second}
               locale={locale}
@@ -43,7 +48,7 @@ export function ProductCard({
       </div>
       <div className="mt-5 flex items-start justify-between gap-4">
         <div>
-          <h3 className="font-serif text-xl leading-tight">{product.name[locale]}</h3>
+          <Heading className="font-serif text-xl leading-tight">{product.name[locale]}</Heading>
           <ul
             className="mt-3 flex gap-1.5"
             aria-label={product.colors.map((c) => c.name[locale]).join(", ")}

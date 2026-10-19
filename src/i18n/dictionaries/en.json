@@ -13,13 +13,52 @@
     "close": "Close",
     "language": "Language",
     "currency": "Currency",
-    "main": "Main menu"
+    "main": "Main menu",
+    "credits": "Image credits",
+    "shop": "Shop"
   },
   "home": {
     "eyebrow": "Mongolian cashmere",
     "title": "Woven from first light",
-    "lead": "The homepage story will be built here.",
-    "cta": "View collection"
+    "cta": "View collection",
+    "color": "Colour",
+    "viewColor": "View in this colour",
+    "chapters": {
+      "wind": {
+        "eyebrow": "02 — Wind",
+        "title": "Carried off by the Gobi wind"
+      },
+      "thread": {
+        "eyebrow": "03 — Thread",
+        "title": "A thousand fibres, one thread"
+      },
+      "knit": {
+        "eyebrow": "04 — Knit",
+        "title": "Patience in every loop"
+      },
+      "cloth": {
+        "eyebrow": "05 — Cloth",
+        "title": "Light as the wind"
+      }
+    },
+    "collection": {
+      "eyebrow": "06 — Collection",
+      "title": "Quiet, worn close",
+      "lead": "Few pieces. One tone.",
+      "all": "View the full collection"
+    },
+    "story": {
+      "eyebrow": "07 — Story",
+      "title": "From the Gobi dawn",
+      "lead": "Cold nights, early dawns, patient hands — ÜÜR is a memory of all three.",
+      "cta": "Read the story"
+    },
+    "sound": {
+      "label": "Wind",
+      "on": "Turn wind sound on",
+      "off": "Turn wind sound off"
+    },
+    "loading": "Loading"
   },
   "categories": {
     "all": "All",
@@ -96,16 +135,85 @@
   },
   "story": {
     "title": "Story",
-    "description": "The story and origins of ÜÜR.",
+    "description": "The ÜÜR story: from the Gobi to the mill, and how cashmere comes to be.",
     "eyebrow": "Origins",
     "headline": "From the Gobi dawn",
-    "sections": {
-      "origin": "Origin",
-      "herders": "Herders",
-      "craft": "Craft",
-      "care": "Responsibility"
+    "lead": "The path from a cold Gobi night to the soft warmth on your shoulders.",
+    "intro": "Cashmere is the goat's soft undercoat — grown against the winter cold and gently combed out in spring. This page follows its journey.",
+    "map": {
+      "label": "Map of the journey from the Gobi to the mill",
+      "stops": {
+        "gobi": {
+          "place": "South Gobi",
+          "eyebrow": "01 — Gobi",
+          "title": "Cold nights, soft down",
+          "body": "Through the Gobi winter, goats grow a fine undercoat. When spring warms, it is combed out."
+        },
+        "mid": {
+          "place": "Middle Gobi",
+          "eyebrow": "02 — Steppe",
+          "title": "Across the steppe",
+          "body": "From the herder's ger, the raw fibre travels the steppe roads."
+        },
+        "factory": {
+          "place": "Ulaanbaatar",
+          "eyebrow": "03 — Mill",
+          "title": "From fibre to yarn",
+          "body": "Here the fibre is cleaned, spun and knit."
+        }
+      }
     },
-    "placeholder": "Brand story copy coming soon."
+    "quotes": {
+      "steppe": "The steppe is never in a hurry.",
+      "herders": "Behind every herd, patient hands.",
+      "dawn": "The quiet before dawn."
+    },
+    "process": {
+      "eyebrow": "Craft",
+      "title": "From fibre to cloth",
+      "steps": {
+        "comb": {
+          "title": "Combing",
+          "body": "In spring, the soft undercoat is gently combed from the goat."
+        },
+        "clean": {
+          "title": "Cleaning",
+          "body": "Washed and parted from coarse hair and dust, until only the soft down remains."
+        },
+        "spin": {
+          "title": "Spinning",
+          "body": "The fine fibres are twisted into an even, strong yarn."
+        },
+        "knit": {
+          "title": "Knitting",
+          "body": "Loop by loop, the yarn becomes soft cloth."
+        }
+      }
+    },
+    "facts": {
+      "eyebrow": "In numbers",
+      "title": "Facts",
+      "pending": "Coming soon",
+      "note": "Figures will be added once verified.",
+      "items": {
+        "micron": {
+          "label": "Average fibre diameter",
+          "unit": "μm"
+        },
+        "herders": {
+          "label": "Partner herding families",
+          "unit": "families"
+        },
+        "yield": {
+          "label": "Cashmere combed per goat each year",
+          "unit": "g"
+        },
+        "distance": {
+          "label": "Road from the Gobi to the mill",
+          "unit": "km"
+        }
+      }
+    }
   },
   "footer": {
     "rights": "© ÜÜR. A fictional brand — demo store."
@@ -114,5 +222,13 @@
     "title": "Page not found",
     "body": "The page you are looking for does not exist or has moved.",
     "home": "Back to home"
+  },
+  "credits": {
+    "title": "Image credits",
+    "description": "Authors and licences of the images used on this site.",
+    "intro": "Images on this site are the work of the photographers below. Product images are temporary placeholders and will be replaced with real product photography.",
+    "placeholder": "Placeholder",
+    "by": "By",
+    "on": "on"
   }
 }

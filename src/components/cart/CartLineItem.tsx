@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { PriceTag } from "@/components/currency/PriceTag";
@@ -17,10 +18,12 @@ export function CartLineItem({ line, onNavigate }: { line: CartLine; onNavigate?
       <Link
         href={`/${locale}/product/${line.slug}`}
         onClick={onNavigate}
-        className="block aspect-3/4 w-20 shrink-0"
+        className="relative block aspect-3/4 w-20 shrink-0 overflow-hidden"
         style={{ backgroundColor: line.color.swatch }}
         aria-label={name}
-      />
+      >
+        {line.image && <Image src={line.image} alt="" fill sizes="80px" className="object-cover" />}
+      </Link>
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-start justify-between gap-4">
           <Link

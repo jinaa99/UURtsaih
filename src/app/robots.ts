@@ -3,7 +3,11 @@ import { siteUrl } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/", disallow: ["/*/cart", "/*/checkout", "/*/styleguide"] },
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/*/cart", "/*/checkout", "/*/styleguide", "/*/dev"],
+    },
     sitemap: new URL("/sitemap.xml", siteUrl).toString(),
   };
 }

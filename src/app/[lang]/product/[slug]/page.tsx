@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { PriceTag } from "@/components/currency/PriceTag";
 import { ProductGallery } from "@/components/product/ProductGallery";
@@ -15,7 +16,9 @@ export async function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
-async function load(params: PageProps<"/[lang]/product/[slug]">["params"]) {
+type Params = PageProps<"/[lang]/product/[slug]">["params"];
+
+async function load(params: Params) {
   const { slug } = await params;
   const product = await productRepository.getBySlug(slug);
   if (!product) notFound();
@@ -33,7 +36,8 @@ export async function generateMetadata({
     description: product.description[locale],
   });
   const images = product.images.flatMap((i) => (i.src ? [{ url: i.src, alt: i.alt[locale] }] : []));
-  return { ...meta, openGraph: { ...meta.openGraph, images } };
+  // Зураггүй (placeholder) бүтээгдэхүүнд брэндийн default OG зураг үлдэнэ.
+  return images.length ? { ...meta, openGraph: { ...meta.openGraph, images } } : meta;
 }
 
 function productJsonLd(product: Product, locale: Locale, collectionTitle: string) {
@@ -74,7 +78,35 @@ function productJsonLd(product: Product, locale: Locale, collectionTitle: string
   ];
 }
 
-export default async function ProductPage({ params }: PageProps<"/[lang]/product/[slug]">) {
+// `params` (slug)-аас хамаарах хэсэг Suspense дотор — client navigation-д skeleton шууд гарна.
+// generateStaticParams-д байгаа slug-ууд build үед бүрэн prerender хийгдэнэ.
+export default function ProductPage({ params }: PageProps<"/[lang]/product/[slug]">) {
+  return (
+    <main className="mx-auto max-w-screen-2xl px-5 pt-20 pb-32 sm:px-10 sm:pt-28 md:pb-0">
+      <Suspense fallback={<ProductSkeleton />}>
+        <ProductContent params={params} />
+      </Suspense>
+    </main>
+  );
+}
+
+function ProductSkeleton() {
+  return (
+    <div
+      aria-hidden
+      className="grid grid-cols-1 gap-10 md:mt-12 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] md:gap-16 lg:gap-24"
+    >
+      <div className="aspect-3/4 bg-cream-deep md:aspect-4/5" />
+      <div className="space-y-5">
+        <div className="h-3 w-24 bg-cream-deep" />
+        <div className="h-10 w-2/3 bg-cream-deep" />
+        <div className="h-5 w-28 bg-cream-deep" />
+      </div>
+    </div>
+  );
+}
+
+async function ProductContent({ params }: { params: Params }) {
   const [locale, dict, product] = await Promise.all([getLocale(), getDictionary(), load(params)]);
 
   const info = [
@@ -84,7 +116,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
   ];
 
   return (
-    <main className="mx-auto max-w-screen-2xl px-5 pt-20 pb-32 sm:px-10 sm:pt-28 md:pb-0">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -134,6 +166,6 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 }
